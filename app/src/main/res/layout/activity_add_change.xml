@@ -144,13 +144,13 @@
             android:layout_marginLeft="0dp"
             android:layout_marginRight="8dp"
             android:text="Описание"
-            app:layout_constraintBottom_toTopOf="@+id/editText2"
+            app:layout_constraintBottom_toTopOf="@+id/editTextDesc"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="@+id/editText2"
+            app:layout_constraintLeft_toLeftOf="@+id/editTextDesc"
             app:layout_constraintRight_toRightOf="parent" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/editTextDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"

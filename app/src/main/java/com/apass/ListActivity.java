@@ -12,9 +12,15 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.apass.entity.Record;
+import com.apass.entity.RecordList;
+
+import java.io.FileOutputStream;
+
 public class ListActivity extends AppCompatActivity implements View.OnClickListener {
 
-    String[] names = { "VK", "Google", "Yandex", "mail.ru"};
+    RecordList recordList = new RecordList();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,23 +32,53 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //TEST
+
+        //recordList.add(new Record("name1", "log1", "pass1", "desc1"));
+        //recordList.add(new Record("name2", "log2", "pass2", "desc2"));
 
 
-        // находим список
+
+        //recordList.save(this);
+        //recordList.clear();
+        recordList.load(this);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //TEST
+
         ListView lvMain = (ListView) findViewById(R.id.lvMain);
 
         // создаем адаптер
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, names);
+                android.R.layout.simple_list_item_1, recordList.getNames());
 
         // присваиваем адаптер списку
         lvMain.setAdapter(adapter);
+
         //показ записи
         lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Intent intentCreate = new Intent(ListActivity.this, ShowRecordActivity.class);
+                intentCreate.putExtra("record", recordList.get(position));
                 startActivity(intentCreate);
             }
         });
