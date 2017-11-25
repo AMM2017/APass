@@ -2,36 +2,26 @@ package com.apass.entity;
 
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.res.Resources;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SealedObject;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
@@ -40,6 +30,14 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class RecordList implements Serializable {
     private List<Record> list;
+    //TEST
+    private  byte[] password = "1234567812345678".getBytes();
+
+    private static final String chipher = "AES";
+
+    public static final String fileName = "datacpt";
+
+    //private ContextWrapper contextWrapper;
 
     public RecordList() {
         list = new LinkedList<Record>();
@@ -71,24 +69,21 @@ public class RecordList implements Serializable {
 
     public void save(ContextWrapper context) {
 
-        byte[] pass = "pass1111".getBytes();
 
         try {
-            SecretKeySpec key = new SecretKeySpec(pass, "DES");
-            Cipher ecipher = Cipher.getInstance("DES");
+            SecretKeySpec key = new SecretKeySpec(password, chipher);
+            Cipher ecipher = Cipher.getInstance(chipher);
 
             ecipher.init(Cipher.ENCRYPT_MODE, key);
-
-
 
 
             SealedObject so = new SealedObject((Serializable)list, ecipher);
 
 
-            File file = new File(context.getFilesDir(), "temp.out");
+            File file = new File(context.getFilesDir(), fileName);
             file.createNewFile();
             //File file = new File();
-            FileOutputStream outputStream = context.openFileOutput("temp.out", Context.MODE_PRIVATE);
+            FileOutputStream outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(outputStream);
             oos.writeObject(so);
             oos.flush();
@@ -112,21 +107,16 @@ public class RecordList implements Serializable {
     }
 
     public void load(ContextWrapper context) {
-
-        byte[] pass = "pass1111".getBytes();
+        //contextWrapper = context;
 
         try {
-            SecretKeySpec key = new SecretKeySpec(pass, "DES");
+            SecretKeySpec key = new SecretKeySpec(password, chipher);
 
-
-
-            Cipher dcipher = Cipher.getInstance("DES");
+            Cipher dcipher = Cipher.getInstance(chipher);
             dcipher.init(Cipher.DECRYPT_MODE, key);
             //SealedObject so = new SealedObject(this, cipher);
 
-
-
-            FileInputStream fis = context.openFileInput("temp.out");
+            FileInputStream fis = context.openFileInput(fileName);
             ObjectInputStream ois = new ObjectInputStream(fis);
             SealedObject so = (SealedObject) ois.readObject();
 
@@ -152,5 +142,26 @@ public class RecordList implements Serializable {
         }
 
 
+    }
+
+    public void open(ContextWrapper context, String pass) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException, ClassNotFoundException, BadPaddingException, IllegalBlockSizeException {
+        password = pass.getBytes();
+        SecretKeySpec key = new SecretKeySpec(password, chipher);
+
+        Cipher dcipher = Cipher.getInstance(chipher);
+        dcipher.init(Cipher.DECRYPT_MODE, key);
+        //SealedObject so = new SealedObject(this, cipher);
+
+        FileInputStream fis = context.openFileInput(fileName);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+        SealedObject so = (SealedObject) ois.readObject();
+
+        ois.close();
+        //list = (LinkedList<Record>)so.getObject(dcipher);
+    }
+
+    public void create(ContextWrapper context, String pass) {
+        password = pass.getBytes();
+        save(context);
     }
 }
