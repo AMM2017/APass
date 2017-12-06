@@ -15,12 +15,20 @@ import android.widget.Toast;
 
 import com.apass.entity.RecordList;
 
+import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
 public class ListActivity extends AppCompatActivity implements View.OnClickListener {
 
     RecordList recordList = new RecordList();
     final int REQUEST_CODE_ADD = 1;
     ListView lvMain;
-
+    String pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +36,8 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        Intent intent = getIntent();
+        pass = (String) intent.getSerializableExtra("pass");
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
@@ -38,7 +47,15 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         //recordList.add(new Record("name2", "log2", "pass2", "desc2"));
         //recordList.save(this);
         //recordList.clear();
-        recordList.load(this);
+
+        try {
+            recordList.open(this, pass);
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(this, "Wrong open", Toast.LENGTH_SHORT).show();
+            this.finish();
+        }
 
         ShowRecords(this);
     }
