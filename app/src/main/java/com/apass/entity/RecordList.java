@@ -3,6 +3,8 @@ package com.apass.entity;
 import android.content.Context;
 import android.content.ContextWrapper;
 
+import com.apass.tools.RecordComparator;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,7 +17,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -71,6 +76,8 @@ public class RecordList implements Serializable {
     }
 
     public void save(ContextWrapper context) {
+        //сортировка перед сохранением
+        Collections.sort(list, new RecordComparator());
         try {
             SecretKeySpec key = new SecretKeySpec(passsha256, chipher);
             Cipher ecipher = Cipher.getInstance(chipher);
