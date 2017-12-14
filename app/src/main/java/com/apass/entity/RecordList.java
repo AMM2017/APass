@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -182,5 +183,17 @@ public class RecordList implements Serializable {
             e.printStackTrace();
         }
         return  null;
+    }
+
+    public RecordList GetFilteredList(String mask) {
+
+        String pattern = ".*" + mask + ".*";
+
+        RecordList result = new RecordList();
+        for (Record r: list) {
+            if (Pattern.matches(pattern, r.getName()))
+                result.add(r);
+        }
+        return result;
     }
 }
