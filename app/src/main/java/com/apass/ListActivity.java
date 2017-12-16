@@ -53,12 +53,6 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
-        //TEST
-        //recordList.add(new Record("name1", "log1", "pass1", "desc1"));
-        //recordList.add(new Record("name2", "log2", "pass2", "desc2"));
-        //recordList.save(this);
-        //recordList.clear();
-
         try {
             recordList.open(this, pass);
         }
@@ -73,6 +67,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
 
     void ShowRecords(final ContextWrapper contextWrapper, final RecordList rl)
     {
+
         lvMain = (ListView) findViewById(R.id.lvMain);
         //адаптеры связывают данные и предстваление, ArrayAdapter связывает layout-list с массивом, взятым из списка паролей
         // создаем адаптер
@@ -89,6 +84,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intentCreate = new Intent(ListActivity.this, ShowRecordActivity.class);
                 intentCreate.putExtra("record", rl.get(position));
                 startActivity(intentCreate);
+                editTextSearch.getText().clear();
                 ShowRecords(contextWrapper, recordList);
             }
         });
@@ -110,6 +106,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
+                editTextSearch.getText().clear();
                 Intent intentCreate = new Intent(this, AddChangeActivity.class);
                 intentCreate.putExtra("recordList", recordList);
                 startActivityForResult(intentCreate, REQUEST_CODE_ADD);
