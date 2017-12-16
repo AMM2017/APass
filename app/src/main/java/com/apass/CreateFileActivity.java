@@ -12,7 +12,7 @@ public class CreateFileActivity  extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_file);
+        setContentView(R.layout.activity_create_base);
 
         btnCreateBase = (Button) findViewById(R.id.btnCreateBase);
         btnCreateBase.setOnClickListener(this);

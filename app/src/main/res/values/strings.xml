@@ -18,4 +18,27 @@
     <string name="dialog_btn_ok">OK</string>
     <string name="dialog_btn_cancel">Отмена</string>
     <string name="wrong_result">Ошибка!</string>
+    <string name="pwd_short">Пароль слишком короткий!</string>
+    <string name="pwd_incorrect">Неверный пароль!</string>
+    <string name="wrong_open">Ошибка открытия!</string>
+    <string name="name_login_empty">Имя или логин пусты!</string>
+    <string name="name_already_exist">Такое имя уже занято!</string>
+    <string name="create">Создать</string>
+    <string name="done">Готово</string>
+    <string name="record_name">Имя записи</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="description">Описание</string>
+    <string name="copy_pass">Copy pass</string>
+    <string name="password_generator">password generator</string>
+    <string name="copy_login">copy login</string>
+    <string name="secure">secure</string>
+    <string name="master_password">Мастер-пароль</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="create_new_base">Создание новой базы</string>
+    <string name="search">Поиск</string>
+    <string name="enter_password">Введите пароль:</string>
+    <string name="enter">Войти</string>
+    <string name="open_base">Открытие базы</string>
+    <string name="mater_password">Мастер-пароль</string>
 </resources>

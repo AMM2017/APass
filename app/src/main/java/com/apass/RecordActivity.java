@@ -150,7 +150,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                     // set dialog message
                     alertDialogBuilder
                             .setCancelable(false)
-                            .setPositiveButton("OK",
+                            .setPositiveButton(R.string.dialog_btn_ok,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,int id) {
                                             //проверка хешей паролей
@@ -179,7 +179,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                                             }
                                         }
                                     })
-                            .setNegativeButton("Cancel",
+                            .setNegativeButton(R.string.dialog_btn_cancel,
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,int id) {
                                             dialog.cancel();
@@ -195,7 +195,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
             case R.id.btnAction:
                 //если имя и логин не пустые
                 if (name.getText().toString().equals("")||login.getText().toString().equals("")) {
-                    Toast.makeText(context, "Name or login is empty", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.name_login_empty, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else
@@ -206,7 +206,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                                         etPass.getText().toString(),
                                         textDesc.getText().toString());
                     if (recordList.get(record.getName()) != null) {
-                        Toast.makeText(context, "Name is already exist!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.name_already_exist, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     else

@@ -31,13 +31,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //в зависимости от наличия файла загружаем разные layout
         File f = new File(this.getFilesDir(), fileName);
         if (f.exists()) {
-            setContentView(R.layout.activity_open_file);
+            setContentView(R.layout.activity_open_base);
             btnOpen = (Button) findViewById(R.id.btnOpenBase);
             btnOpen.setOnClickListener(this);
             editPass = (TextView) findViewById(R.id.editPassOpen);
         }
         else {
-            setContentView(R.layout.activity_create_file);
+            setContentView(R.layout.activity_create_base);
 
             btnCreate = (Button) findViewById(R.id.btnCreateBase);
             btnCreate.setOnClickListener(this);
@@ -54,12 +54,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnCreateBase:
                 //проверка на одинаковость паролей
                 if (!editPass.getText().toString().equals(editPassRepeat.getText().toString())) {
-                    Toast.makeText(this, "Passwords do not match!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.pwd_not_match, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //проверка на длину пароля
                 if(editPass.getText().toString().length() < 4) {
-                    Toast.makeText(this, "Password is too short!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.pwd_short, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //создание пустого файла и сохранение его
@@ -82,12 +82,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //если неверный пароль
                 catch (BadPaddingException ePadding)
                 {
-                    Toast.makeText(this, "Incorrect passowrd!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.pwd_incorrect, Toast.LENGTH_SHORT).show();
                 }
                 //другие ошибки
                 catch (Exception e)
                 {
-                    Toast.makeText(this, "Wrong open!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.wrong_open, Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
