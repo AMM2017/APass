@@ -34,8 +34,6 @@
                 android:value="com.apass.MainActivity" />
         </activity>
         <activity android:name=".CreateFileActivity" />
-        <activity android:name=".AddChangeActivity" />
-        <activity android:name=".ShowRecordActivity" />
         <activity android:name=".RecordActivity"></activity>
     </application>
 

@@ -23,15 +23,9 @@ import android.widget.Toast;
 
 import com.apass.entity.RecordList;
 
-import java.io.IOException;
-import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 
 public class ListActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 

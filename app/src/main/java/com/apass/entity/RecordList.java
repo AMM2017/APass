@@ -7,20 +7,16 @@ import com.apass.tools.RecordComparator;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -38,18 +34,15 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class RecordList implements Serializable {
     private List<Record> list;
-    //TEST
-    //private  String  password = "1234567812345678";
+
     private byte[] passsha256;
 
     private static final String chipher = "AES";
 
     public static final String fileName = "datacpt";
 
-    //private ContextWrapper contextWrapper;
-
     public RecordList() {
-        list = new LinkedList<Record>();
+        list = new LinkedList<>();
     }
 
     public void add(Record r) {
@@ -60,7 +53,7 @@ public class RecordList implements Serializable {
         list.remove(r);
     }
 
-    public void  clear() {
+    public void clear() {
         list.clear();
     }
 
@@ -79,7 +72,7 @@ public class RecordList implements Serializable {
     public byte[] getSha() { return passsha256; }
 
     public String[] getNames() {
-        ArrayList<String> strings = new ArrayList<String>();
+        ArrayList<String> strings = new ArrayList<>();
         for (Record r: list) {
             strings.add(r.getName());
         }
@@ -109,58 +102,15 @@ public class RecordList implements Serializable {
             oos.close();
 
         }
-        catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        catch (NoSuchAlgorithmException | IOException | NoSuchPaddingException | IllegalBlockSizeException e) {
             e.printStackTrace();
         } catch (InvalidKeyException e) {
             System.err.println(e.getMessage());
-            e.printStackTrace();
-        } catch (NoSuchPaddingException e) {
-            e.printStackTrace();
-        } catch (IllegalBlockSizeException e) {
             e.printStackTrace();
         }
 
 
     }
-
-//    public void load(ContextWrapper context, String pass) {
-//        //contextWrapper = context;
-//        try {
-//            SecretKeySpec key = new SecretKeySpec(passsha256, chipher);
-//
-//            Cipher dcipher = Cipher.getInstance(chipher);
-//            dcipher.init(Cipher.DECRYPT_MODE, key);
-//            //SealedObject so = new SealedObject(this, cipher);
-//
-//            FileInputStream fis = context.openFileInput(fileName);
-//            ObjectInputStream ois = new ObjectInputStream(fis);
-//            SealedObject so = (SealedObject) ois.readObject();
-//
-//            ois.close();
-//            list = (LinkedList<Record>)so.getObject(dcipher);
-//
-//
-//        }
-//        catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (InvalidKeyException e) {
-//            e.printStackTrace();
-//        } catch (NoSuchPaddingException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IllegalBlockSizeException e) {
-//            e.printStackTrace();
-//        }  catch (BadPaddingException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//    }
 
     public void open(ContextWrapper context, String pass) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException, ClassNotFoundException, BadPaddingException, IllegalBlockSizeException {
 
@@ -189,7 +139,7 @@ public class RecordList implements Serializable {
         File file = new File(context.getFilesDir(), fileName);
         if (file.delete())
         {
-            list.clear();
+            clear();
             return true;
         }
         return false;

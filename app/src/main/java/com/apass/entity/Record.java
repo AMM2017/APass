@@ -1,8 +1,6 @@
 package com.apass.entity;
 
 import java.io.Serializable;
-import java.text.Collator;
-import java.util.Comparator;
 
 /**
  * Created by Ivan on 12.11.2017.
