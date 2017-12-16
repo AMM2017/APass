@@ -30,6 +30,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
 
     RecordList recordList = new RecordList();
     final int REQUEST_CODE_ADD = 1;
+    final int REQUEST_CODE_CHANGE = 2;
     ListView lvMain;
 
     EditText editTextSearch;
@@ -81,10 +82,12 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         lvMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                Intent intentCreate = new Intent(ListActivity.this, ShowRecordActivity.class);
-                intentCreate.putExtra("record", rl.get(position));
-                startActivity(intentCreate);
-                editTextSearch.getText().clear();
+                Intent intentCreate = new Intent(ListActivity.this, RecordActivity.class);
+                intentCreate.putExtra("recordName", rl.get(position).getName());
+                intentCreate.putExtra("recordList", recordList);
+                intentCreate.putExtra("isAdd", false);
+                startActivityForResult(intentCreate, REQUEST_CODE_CHANGE);
+                editTextSearch.setText("");
                 ShowRecords(contextWrapper, recordList);
             }
         });
@@ -94,8 +97,9 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int position, long id) {
-                rl.remove(rl.get(position));
+                recordList.remove(rl.get(rl.get(position).getName()));
                 recordList.save(contextWrapper);
+                editTextSearch.setText("");
                 ShowRecords(contextWrapper, recordList);
                 return true;
             }
@@ -107,10 +111,11 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.fab:
                 editTextSearch.getText().clear();
-                Intent intentCreate = new Intent(this, AddChangeActivity.class);
+                Intent intentCreate = new Intent(this, RecordActivity.class);
+                intentCreate.putExtra("recordName", "");
                 intentCreate.putExtra("recordList", recordList);
+                intentCreate.putExtra("isAdd", true);
                 startActivityForResult(intentCreate, REQUEST_CODE_ADD);
-
                 break;
             default:
                 break;
@@ -123,6 +128,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_ADD:
+                case REQUEST_CODE_CHANGE:
                     recordList = (RecordList)data.getSerializableExtra("recordList");
                     recordList.save(this);
                     ShowRecords(this, recordList);

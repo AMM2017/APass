@@ -26,16 +26,17 @@
         <activity
             android:name=".ListActivity"
             android:label="@string/title_activity_list"
-            android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.apass.MainActivity" />
         </activity>
         <activity android:name=".CreateFileActivity" />
         <activity android:name=".AddChangeActivity" />
-        <activity android:name=".ShowRecordActivity"></activity>
+        <activity android:name=".ShowRecordActivity" />
+        <activity android:name=".RecordActivity"></activity>
     </application>
 
 </manifest>

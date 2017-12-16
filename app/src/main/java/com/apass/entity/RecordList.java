@@ -39,8 +39,8 @@ import javax.crypto.spec.SecretKeySpec;
 public class RecordList implements Serializable {
     private List<Record> list;
     //TEST
-    private  String  password = "1234567812345678";
-    private  byte[] passsha256;
+    //private  String  password = "1234567812345678";
+    private byte[] passsha256;
 
     private static final String chipher = "AES";
 
@@ -67,6 +67,16 @@ public class RecordList implements Serializable {
     public Record get(int i) {
         return list.get(i);
     }
+
+    public Record get(String name) {
+        for (Record r: list) {
+            if (r.getName().equals(name))
+                return r;
+        }
+        return  null;
+    }
+
+    public byte[] getSha() { return passsha256; }
 
     public String[] getNames() {
         ArrayList<String> strings = new ArrayList<String>();

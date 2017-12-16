@@ -37,4 +37,20 @@ public class Record implements Serializable {
     public String getComment() {
         return comment;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
 }
