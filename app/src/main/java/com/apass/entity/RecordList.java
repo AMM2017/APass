@@ -185,6 +185,17 @@ public class RecordList implements Serializable {
         save(context);
     }
 
+    public boolean delete(Context context) {
+        File file = new File(context.getFilesDir(), fileName);
+        if (file.delete())
+        {
+            list.clear();
+            return true;
+        }
+        return false;
+
+    }
+
     private byte[] getHashFromString(String s) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

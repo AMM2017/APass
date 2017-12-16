@@ -1,14 +1,19 @@
 package com.apass;
 
+import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,7 +25,9 @@ import com.apass.entity.RecordList;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -32,15 +39,19 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
     final int REQUEST_CODE_ADD = 1;
     final int REQUEST_CODE_CHANGE = 2;
     ListView lvMain;
+    private final Context context = this;
 
     EditText editTextSearch;
     String pass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        toolbar.setOnClickListener(this);
 
         Intent intent = getIntent();
         pass = (String) intent.getSerializableExtra("pass");
@@ -59,7 +70,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         }
         catch (Exception e)
         {
-            Toast.makeText(this, "Wrong open", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.wrong_result, Toast.LENGTH_SHORT).show();
             this.finish();
         }
 
@@ -72,7 +83,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         lvMain = (ListView) findViewById(R.id.lvMain);
         //адаптеры связывают данные и предстваление, ArrayAdapter связывает layout-list с массивом, взятым из списка паролей
         // создаем адаптер
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, rl.getNames());
 
         // присваиваем адаптер списку
@@ -117,8 +128,71 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
                 intentCreate.putExtra("isAdd", true);
                 startActivityForResult(intentCreate, REQUEST_CODE_ADD);
                 break;
+
             default:
                 break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                //подтверждение удаления
+                // запрос ввода пароля для доступа к изменению
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+                // get prompts.xml view
+                LayoutInflater li = LayoutInflater.from(this);
+                View promptsView = li.inflate(R.layout.prompt, null);
+                alertDialogBuilder.setView(promptsView);
+
+                final EditText securePass = (EditText) promptsView
+                        .findViewById(R.id.editTextDialogUserInput);
+
+                // set dialog message
+                alertDialogBuilder
+                        .setCancelable(false)
+                        .setPositiveButton(R.string.dialog_btn_ok,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        //проверка хешей паролей
+                                        MessageDigest digest = null;
+                                        try {
+                                            digest = MessageDigest.getInstance("SHA-256");
+                                        } catch (NoSuchAlgorithmException e) {
+                                            e.printStackTrace();
+                                        }
+                                        byte[] usersha = digest.digest(securePass.getText().toString().getBytes());
+                                        if(Arrays.toString(usersha).equals(Arrays.toString(recordList.getSha())))
+                                        //если пароли совпадают
+                                        {
+                                            //удаляем базу, запускаем стартовое активити
+                                            recordList.delete(context);
+                                            Intent intent = new Intent(context, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                        //если пароли не совпадают
+                                        else
+                                        {
+                                            Toast.makeText(context, R.string.pwd_not_match, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                })
+                        .setNegativeButton(R.string.dialog_btn_cancel,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                //показ диалогового окна
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -136,7 +210,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
             }
             // если вернулось не ОК
         } else {
-            Toast.makeText(this, "Wrong result", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.wrong_result, Toast.LENGTH_SHORT).show();
         }
     }
 
