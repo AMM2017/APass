@@ -1,8 +1,8 @@
 package com.apass;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,43 +16,32 @@ import java.util.Random;
 public class GeneratorActivity extends AppCompatActivity implements View.OnClickListener,
         NumberPicker.OnValueChangeListener, CompoundButton.OnCheckedChangeListener {
 
+    public static final String UPPER_EN = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static final String LOWER_EN = UPPER_EN.toLowerCase();
+    public static final String UPPER_RU = "БВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
+    public static final String LOWER_RU = UPPER_RU.toLowerCase();
+    public static final String DIGITS = "0123456789";
+    public static final String SYMBOLS = "!?@#$%^&*()-_";
     NumberPicker numberPicker;
-
     CheckBox lowEng;
     CheckBox upEng;
     CheckBox lowRu;
     CheckBox upRu;
     CheckBox number;
     CheckBox specSymbols;
-
     TextView txtgeneratedPass;
+    String resultPass;
+    int resultLength;
 
+    Button btnGeneratePass;
+    Button btnDoneGenerate;
+    Random random = new Random();
     private boolean isLowEng = true;
     private boolean isUpEng = false;
     private boolean isLowRu = false;
     private boolean isUpRu = false;
     private boolean isNumber = false;
     private boolean isSpecSymbols = false;
-
-    String resultPass;
-    int resultLength;
-
-    Button btnGeneratePass;
-    Button btnDoneGenerate;
-
-    public static final String UPPER_EN = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-    public static final String LOWER_EN = UPPER_EN.toLowerCase();
-
-    public static final String UPPER_RU = "БВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
-
-    public static final String LOWER_RU = UPPER_RU.toLowerCase();
-
-    public static final String DIGITS = "0123456789";
-
-    public static final String SYMBOLS = "!?@#$%^&*()-_";
-
-    Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +75,7 @@ public class GeneratorActivity extends AppCompatActivity implements View.OnClick
         specSymbols = (CheckBox) findViewById(R.id.cbSpecSymbols);
         specSymbols.setOnCheckedChangeListener(this);
 
-        txtgeneratedPass = (TextView)findViewById(R.id.txtGeneratedPass);
+        txtgeneratedPass = (TextView) findViewById(R.id.txtGeneratedPass);
 
 
         //установка начальных значений
@@ -128,8 +117,7 @@ public class GeneratorActivity extends AppCompatActivity implements View.OnClick
             case R.id.btnDoneGenerate:
                 if (resultPass == null)
                     Toast.makeText(this, R.string.pass_not_gnerated, Toast.LENGTH_SHORT).show();
-                else
-                {
+                else {
                     Intent intent = new Intent();
                     intent.putExtra("generatedPass", resultPass);
                     setResult(RESULT_OK, intent);

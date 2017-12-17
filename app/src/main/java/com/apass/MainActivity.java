@@ -35,8 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btnOpen = (Button) findViewById(R.id.btnOpenBase);
             btnOpen.setOnClickListener(this);
             editPass = (TextView) findViewById(R.id.editPassOpen);
-        }
-        else {
+        } else {
             setContentView(R.layout.activity_create_base);
 
             btnCreate = (Button) findViewById(R.id.btnCreateBase);
@@ -45,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editPass = (TextView) findViewById(R.id.editPass);
         }
     }
-
 
 
     @Override
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 //проверка на длину пароля
-                if(editPass.getText().toString().length() < 4) {
+                if (editPass.getText().toString().length() < 4) {
                     Toast.makeText(this, R.string.pwd_short, Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -80,13 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     finish();
                 }
                 //если неверный пароль
-                catch (BadPaddingException ePadding)
-                {
+                catch (BadPaddingException ePadding) {
                     Toast.makeText(this, R.string.pwd_incorrect, Toast.LENGTH_SHORT).show();
                 }
                 //другие ошибки
-                catch (Exception e)
-                {
+                catch (Exception e) {
                     Toast.makeText(this, R.string.wrong_open, Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -94,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
 
 
 }

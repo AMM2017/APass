@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -30,12 +29,11 @@ import java.util.Arrays;
 
 public class ListActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
-    RecordList recordList = new RecordList();
     final int REQUEST_CODE_ADD = 1;
     final int REQUEST_CODE_CHANGE = 2;
-    ListView lvMain;
     private final Context context = this;
-
+    RecordList recordList = new RecordList();
+    ListView lvMain;
     EditText editTextSearch;
     String pass;
 
@@ -62,9 +60,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
 
         try {
             recordList.open(this, pass);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Toast.makeText(this, R.string.wrong_result, Toast.LENGTH_SHORT).show();
             this.finish();
         }
@@ -167,7 +163,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
                         .setCancelable(false)
                         .setPositiveButton(R.string.dialog_btn_ok,
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         //проверка хешей паролей
                                         MessageDigest digest = null;
                                         try {
@@ -176,7 +172,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
                                             e.printStackTrace();
                                         }
                                         byte[] usersha = digest.digest(securePass.getText().toString().getBytes());
-                                        if(Arrays.toString(usersha).equals(Arrays.toString(recordList.getSha())))
+                                        if (Arrays.toString(usersha).equals(Arrays.toString(recordList.getSha())))
                                         //если пароли совпадают
                                         {
                                             //удаляем базу, запускаем стартовое активити
@@ -186,15 +182,14 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
                                             finish();
                                         }
                                         //если пароли не совпадают
-                                        else
-                                        {
+                                        else {
                                             Toast.makeText(context, R.string.pwd_not_match, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 })
                         .setNegativeButton(R.string.dialog_btn_cancel,
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
                                 });
@@ -214,7 +209,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
             switch (requestCode) {
                 case REQUEST_CODE_ADD:
                 case REQUEST_CODE_CHANGE:
-                    recordList = (RecordList)data.getSerializableExtra("recordList");
+                    recordList = (RecordList) data.getSerializableExtra("recordList");
                     recordList.save(this);
                     ShowRecords(this, recordList);
                     break;

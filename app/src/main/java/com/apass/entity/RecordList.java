@@ -33,13 +33,10 @@ import javax.crypto.spec.SecretKeySpec;
  */
 
 public class RecordList implements Serializable {
-    private List<Record> list;
-
-    private byte[] passsha256;
-
-    private static final String chipher = "AES";
-
     public static final String fileName = "datacpt";
+    private static final String chipher = "AES";
+    private List<Record> list;
+    private byte[] passsha256;
 
     public RecordList() {
         list = new LinkedList<>();
@@ -62,18 +59,20 @@ public class RecordList implements Serializable {
     }
 
     public Record get(String name) {
-        for (Record r: list) {
+        for (Record r : list) {
             if (r.getName().equals(name))
                 return r;
         }
-        return  null;
+        return null;
     }
 
-    public byte[] getSha() { return passsha256; }
+    public byte[] getSha() {
+        return passsha256;
+    }
 
     public String[] getNames() {
         ArrayList<String> strings = new ArrayList<>();
-        for (Record r: list) {
+        for (Record r : list) {
             strings.add(r.getName());
         }
         return strings.toArray(new String[0]);
@@ -89,7 +88,7 @@ public class RecordList implements Serializable {
             ecipher.init(Cipher.ENCRYPT_MODE, key);
 
 
-            SealedObject so = new SealedObject((Serializable)list, ecipher);
+            SealedObject so = new SealedObject((Serializable) list, ecipher);
 
 
             File file = new File(context.getFilesDir(), fileName + "temp");
@@ -101,8 +100,7 @@ public class RecordList implements Serializable {
             oos.flush();
             oos.close();
 
-        }
-        catch (NoSuchAlgorithmException | IOException | NoSuchPaddingException | IllegalBlockSizeException e) {
+        } catch (NoSuchAlgorithmException | IOException | NoSuchPaddingException | IllegalBlockSizeException e) {
             e.printStackTrace();
         } catch (InvalidKeyException e) {
             System.err.println(e.getMessage());
@@ -127,7 +125,7 @@ public class RecordList implements Serializable {
         SealedObject so = (SealedObject) ois.readObject();
 
         ois.close();
-        list = (LinkedList<Record>)so.getObject(dcipher);
+        list = (LinkedList<Record>) so.getObject(dcipher);
     }
 
     public void create(ContextWrapper context, String pass) {
@@ -137,8 +135,7 @@ public class RecordList implements Serializable {
 
     public boolean delete(Context context) {
         File file = new File(context.getFilesDir(), fileName);
-        if (file.delete())
-        {
+        if (file.delete()) {
             clear();
             return true;
         }
@@ -153,7 +150,7 @@ public class RecordList implements Serializable {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        return  null;
+        return null;
     }
 
     public RecordList GetFilteredList(String mask) {
@@ -161,7 +158,7 @@ public class RecordList implements Serializable {
         String pattern = ".*" + mask + ".*";
 
         RecordList result = new RecordList();
-        for (Record r: list) {
+        for (Record r : list) {
             if (Pattern.matches(pattern, r.getName()))
                 result.add(r);
         }

@@ -25,29 +25,23 @@ import java.util.Arrays;
 
 public class RecordActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private final Context context = this;
+    private final int REQUEST_CODE_DONE = 3;
     ImageButton secure;
-
     ImageButton copyLogin;
     ImageButton copyPass;
     ImageButton generator;
     Button btnAction;
-
     EditText name;
     EditText login;
     TextInputEditText etPass;
     EditText textDesc;
-
     String recordName;
     Record record;
     RecordList recordList;
     //добавление новой или изменение/просмотр существующей
     boolean isAdd;
-
     boolean editable = false;
-
-    private final Context context = this;
-
-    private final int REQUEST_CODE_DONE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +81,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
             secure.setVisibility(View.GONE);
             copyLogin.setVisibility(View.GONE);
             copyPass.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             generator.setVisibility(View.GONE);
             name.setEnabled(false);
             login.setEnabled(false);
@@ -104,8 +97,6 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         }
 
     }
-
-
 
 
     @Override
@@ -127,16 +118,14 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.ibtnSecure:
-                if (editable)
-                {
+                if (editable) {
                     secure.setImageResource(R.drawable.lock);
                     editable = false;
                     //доступность полей для изменения
                     login.setEnabled(false);
                     etPass.setEnabled(false);
                     textDesc.setEnabled(false);
-                }
-                else {
+                } else {
                     //запрос ввода пароля для доступа к изменению
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -153,7 +142,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                             .setCancelable(false)
                             .setPositiveButton(R.string.dialog_btn_ok,
                                     new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,int id) {
+                                        public void onClick(DialogInterface dialog, int id) {
                                             //проверка хешей паролей
                                             MessageDigest digest = null;
                                             try {
@@ -162,7 +151,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                                                 e.printStackTrace();
                                             }
                                             byte[] usersha = digest.digest(securePass.getText().toString().getBytes());
-                                            if(Arrays.toString(usersha).equals(Arrays.toString(recordList.getSha())))
+                                            if (Arrays.toString(usersha).equals(Arrays.toString(recordList.getSha())))
                                             //если пароли совпадают
                                             {
                                                 generator.setVisibility(View.VISIBLE);
@@ -174,15 +163,14 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                                                 textDesc.setEnabled(true);
                                             }
                                             //если пароли не совпадают
-                                            else
-                                            {
+                                            else {
                                                 Toast.makeText(context, "Passwords do not match!", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     })
                             .setNegativeButton(R.string.dialog_btn_cancel,
                                     new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog,int id) {
+                                        public void onClick(DialogInterface dialog, int id) {
                                             dialog.cancel();
                                         }
                                     });
@@ -200,44 +188,39 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
             case R.id.btnAction:
                 //если имя и логин не пустые
-                if (name.getText().toString().equals("")||login.getText().toString().equals("")) {
+                if (name.getText().toString().equals("") || login.getText().toString().equals("")) {
                     Toast.makeText(context, R.string.name_login_empty, Toast.LENGTH_SHORT).show();
                     return;
-                }
-                else
-                //если добавление
-                if(isAdd) {
-                    record = new Record(name.getText().toString(),
-                                        login.getText().toString(),
-                                        etPass.getText().toString(),
-                                        textDesc.getText().toString());
-                    if (recordList.get(record.getName()) != null) {
-                        Toast.makeText(context, R.string.name_already_exist, Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    else
-                    {
-                        recordList.add(record);
-                    }
-                }
-                //если просмотр/изменение
-                else
-                {
-                    //если какое-то поле изменили
-                    if (!record.getLogin().equals(login.getText().toString())||
-                        !record.getPass().equals(etPass.getText().toString())||
-                        !record.getComment().equals(textDesc.getText().toString()))
-                    {
+                } else
+                    //если добавление
+                    if (isAdd) {
                         record = new Record(name.getText().toString(),
                                 login.getText().toString(),
                                 etPass.getText().toString(),
                                 textDesc.getText().toString());
-
-                        //перезапись записи
-                        recordList.remove(recordList.get(record.getName()));
-                        recordList.add(record);
+                        if (recordList.get(record.getName()) != null) {
+                            Toast.makeText(context, R.string.name_already_exist, Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            recordList.add(record);
+                        }
                     }
-                }
+                    //если просмотр/изменение
+                    else {
+                        //если какое-то поле изменили
+                        if (!record.getLogin().equals(login.getText().toString()) ||
+                                !record.getPass().equals(etPass.getText().toString()) ||
+                                !record.getComment().equals(textDesc.getText().toString())) {
+                            record = new Record(name.getText().toString(),
+                                    login.getText().toString(),
+                                    etPass.getText().toString(),
+                                    textDesc.getText().toString());
+
+                            //перезапись записи
+                            recordList.remove(recordList.get(record.getName()));
+                            recordList.add(record);
+                        }
+                    }
                 setResult(RESULT_OK, intent);
                 intent.putExtra("recordList", recordList);
                 this.finish();
@@ -256,7 +239,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_CODE_DONE:
-                    etPass.setText((String)data.getSerializableExtra("generatedPass"));
+                    etPass.setText((String) data.getSerializableExtra("generatedPass"));
                     break;
             }
 
