@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apass.GeneratorActivity">
+
+    <NumberPicker
+        android:id="@+id/numberPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="0dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.7" />
+
+    <TextView
+        android:id="@+id/txtNumChars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Количество символов"
+        app:layout_constraintRight_toLeftOf="@+id/numberPicker"
+        android:layout_marginRight="21dp"
+        app:layout_constraintBottom_toBottomOf="@+id/numberPicker"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintTop_toTopOf="@+id/numberPicker"
+        android:layout_marginTop="8dp" />
+
+    <CheckBox
+        android:id="@+id/cbNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0..9"
+        android:layout_marginTop="26dp"
+        app:layout_constraintTop_toBottomOf="@+id/cbLowRu"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/cbLowRu"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="@+id/cbLowRu"
+        app:layout_constraintHorizontal_bias="0.888" />
+
+    <CheckBox
+        android:id="@+id/cbLowEng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="217dp"
+        android:text="a..z"
+        app:layout_constraintHorizontal_bias="0.191"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <CheckBox
+        android:id="@+id/cbUpEng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A..Z"
+        app:layout_constraintLeft_toRightOf="@+id/cbLowEng"
+        android:layout_marginLeft="93dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cbLowEng"
+        app:layout_constraintTop_toTopOf="@+id/cbLowEng"
+        android:layout_marginTop="0dp"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <CheckBox
+        android:id="@+id/cbLowRu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="а..я"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/cbLowEng"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/cbLowEng"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="@+id/cbLowEng"
+        app:layout_constraintHorizontal_bias="1.0" />
+
+    <CheckBox
+        android:id="@+id/cbUpRu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="А..Я"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/cbUpEng"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="@+id/cbUpEng"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toRightOf="@+id/cbLowRu" />
+
+    <CheckBox
+        android:id="@+id/cbSpecSymbols"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="26dp"
+        android:text="! ? @ # $ % ^ &amp;  * ( ) - _"
+        app:layout_constraintLeft_toRightOf="@+id/cbNumber"
+        app:layout_constraintTop_toBottomOf="@+id/cbUpRu" />
+
+    <Button
+        android:id="@+id/btnGeneratePass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Сгенерировать"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnDoneGenerate"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/txtGeneratedPass"
+        app:layout_constraintVertical_bias="0.096" />
+
+    <TextView
+        android:id="@+id/txtGeneratedPass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="monospace"
+        android:hint="Ваш пароль"
+        android:text="Ваш пароль"
+        android:textAlignment="center"
+        android:textSize="@dimen/activity_horizontal_margin"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cbSpecSymbols"
+        tools:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/btnDoneGenerate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Готово"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="29dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.498" />
+</android.support.constraint.ConstraintLayout>

@@ -202,9 +202,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
                     ShowRecords(this, recordList);
                     break;
             }
-            // если вернулось не ОК
-        } else {
-            Toast.makeText(this, R.string.wrong_result, Toast.LENGTH_SHORT).show();
+
         }
     }
 

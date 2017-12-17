@@ -85,9 +85,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.163"
+            app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="73dp" />
+            android:layout_marginTop="74dp" />
 
         <EditText
             android:id="@+id/editPassRepeat"
@@ -103,7 +103,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintHorizontal_bias="0.163" />
+            app:layout_constraintHorizontal_bias="0.503" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

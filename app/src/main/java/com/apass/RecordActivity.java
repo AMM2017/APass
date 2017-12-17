@@ -47,6 +47,7 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
 
     private final Context context = this;
 
+    private final int REQUEST_CODE_DONE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,8 +191,13 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
                     alertDialog.show();
                 }
                 break;
+            //генератор паролей
+            case R.id.ibtnGenerator:
+                Intent intentCreate = new Intent(this, GeneratorActivity.class);
+                startActivityForResult(intentCreate, REQUEST_CODE_DONE);
+                break;
 
-                //TODO обработка генератора
+
             case R.id.btnAction:
                 //если имя и логин не пустые
                 if (name.getText().toString().equals("")||login.getText().toString().equals("")) {
@@ -241,5 +247,19 @@ public class RecordActivity extends AppCompatActivity implements View.OnClickLis
         }
 
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // если пришло ОК
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_CODE_DONE:
+                    etPass.setText((String)data.getSerializableExtra("generatedPass"));
+                    break;
+            }
+
+        }
     }
 }
