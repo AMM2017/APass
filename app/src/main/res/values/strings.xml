@@ -41,4 +41,15 @@
     <string name="enter">Войти</string>
     <string name="open_base">Открытие базы</string>
     <string name="mater_password">Мастер-пароль</string>
+    <string name="count_symbols">Количество символов</string>
+    <string name="_0_9">0..9</string>
+    <string name="a_z">a..z</string>
+    <string name="a_z_up">A..Z</string>
+    <string name="a_z_ru">а..я</string>
+    <string name="a_z_ru_up">А..Я</string>
+    <string name="spec_symb_layout"><![CDATA[! ? @ # $ % ^ & * ( ) - _]]></string>
+    <string name="generate">Сгенерировать</string>
+    <string name="your_pass">Ваш пароль</string>
+    <string name="no_symbols_set">Не выбрано наборов символов!</string>
+    <string name="pass_not_gnerated">Пароль не сгенерирован!</string>
 </resources>

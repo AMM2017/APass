@@ -107,7 +107,7 @@ public class GeneratorActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()) {
             case R.id.btnGeneratePass:
                 if (!(isLowEng || isUpEng || isLowRu || isUpRu || isNumber || isSpecSymbols))
-                    Toast.makeText(this, "Не выбрано наборов символов!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.no_symbols_set, Toast.LENGTH_SHORT).show();
                 else {
                     String source = "";
                     if (isLowEng) source += LOWER_EN;
@@ -127,7 +127,7 @@ public class GeneratorActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.btnDoneGenerate:
                 if (resultPass == null)
-                    Toast.makeText(this, "Пароль не сгенерирован!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.pass_not_gnerated, Toast.LENGTH_SHORT).show();
                 else
                 {
                     Intent intent = new Intent();
