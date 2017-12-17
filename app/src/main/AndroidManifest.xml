@@ -34,7 +34,8 @@
                 android:value="com.apass.MainActivity" />
         </activity>
         <activity android:name=".CreateFileActivity" />
-        <activity android:name=".RecordActivity" />
+        <activity android:name=".RecordActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity android:name=".GeneratorActivity"></activity>
     </application>
 
