@@ -82,18 +82,17 @@ public class RecordList implements Serializable {
         //сортировка перед сохранением
         Collections.sort(list, new RecordComparator());
         try {
+            //создается секретный ключ из пароля с использованием определнного метода шифрования
             SecretKeySpec key = new SecretKeySpec(passsha256, chipher);
+            //создание объекта, обеспечивающего шифрование определенным методом
             Cipher ecipher = Cipher.getInstance(chipher);
-
+            //шифратор настраивается на шифрование данным ключом
             ecipher.init(Cipher.ENCRYPT_MODE, key);
-
-
+            //создается шифрованный объект-оболочка списка
             SealedObject so = new SealedObject((Serializable) list, ecipher);
 
-
-            File file = new File(context.getFilesDir(), fileName + "temp");
+            File file = new File(context.getFilesDir(), fileName);
             file.createNewFile();
-            //File file = new File();
             FileOutputStream outputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(outputStream);
             oos.writeObject(so);
@@ -113,12 +112,12 @@ public class RecordList implements Serializable {
     public void open(ContextWrapper context, String pass) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IOException, ClassNotFoundException, BadPaddingException, IllegalBlockSizeException {
 
         passsha256 = getHashFromString(pass);
-
+        //создается секретный ключ из пароля с использованием определнного метода шифрования
         SecretKeySpec key = new SecretKeySpec(passsha256, chipher);
-
+        //создание объекта, обеспечивающего шифрование определенным методом
         Cipher dcipher = Cipher.getInstance(chipher);
+        //шифратор настраивается на дешифрование данным ключом
         dcipher.init(Cipher.DECRYPT_MODE, key);
-        //SealedObject so = new SealedObject(this, cipher);
 
         FileInputStream fis = context.openFileInput(fileName);
         ObjectInputStream ois = new ObjectInputStream(fis);
