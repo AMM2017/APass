@@ -13,7 +13,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_list">ListActivity</string>
+    <string name="title_activity_list">APass</string>
     <string name="pwd_not_match">Пароли не совпадают!</string>
     <string name="dialog_btn_ok">OK</string>
     <string name="dialog_btn_cancel">Отмена</string>
@@ -52,4 +52,6 @@
     <string name="your_pass">Ваш пароль</string>
     <string name="no_symbols_set">Не выбрано наборов символов!</string>
     <string name="pass_not_gnerated">Пароль не сгенерирован!</string>
+    <string name="confirmation">Подтверждение</string>
+    <string name="is_delete_record">Удалить запись?</string>
 </resources>

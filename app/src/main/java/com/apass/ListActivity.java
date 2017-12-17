@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -71,8 +72,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         ShowRecords(this, recordList);
     }
 
-    void ShowRecords(final ContextWrapper contextWrapper, final RecordList rl)
-    {
+    void ShowRecords(final ContextWrapper contextWrapper, final RecordList rl) {
 
         lvMain = (ListView) findViewById(R.id.lvMain);
         //адаптеры связывают данные и предстваление, ArrayAdapter связывает layout-list с массивом, взятым из списка паролей
@@ -101,14 +101,31 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         lvMain.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int position, long id) {
-                recordList.remove(rl.get(rl.get(position).getName()));
-                recordList.save(contextWrapper);
-                editTextSearch.setText("");
-                ShowRecords(contextWrapper, recordList);
+                                           final int position, long id) {
+                //получение подтверждения - диалог да/нет
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage(R.string.is_delete_record)
+                        .setTitle(R.string.confirmation);
+                //добавление кнопок
+                builder.setPositiveButton(R.string.dialog_btn_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        recordList.remove(rl.get(rl.get(position).getName()));
+                        recordList.save(contextWrapper);
+                        editTextSearch.setText("");
+                        ShowRecords(contextWrapper, recordList);
+                    }
+                });
+                builder.setNegativeButton(R.string.dialog_btn_cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 return true;
             }
         });
+
     }
 
     @Override
