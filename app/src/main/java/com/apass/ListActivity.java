@@ -47,7 +47,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         toolbar.setOnClickListener(this);
 
         Intent intent = getIntent();
-        pass = (String) intent.getSerializableExtra("pass");
+        recordList = (RecordList) intent.getSerializableExtra("recordList");
 
         //строка поиска
         editTextSearch = (EditText) findViewById(R.id.editTextSearch);
@@ -57,13 +57,6 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
         //кнопка добавить
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
-
-        try {
-            recordList.open(this, pass);
-        } catch (Exception e) {
-            Toast.makeText(this, R.string.wrong_result, Toast.LENGTH_SHORT).show();
-            this.finish();
-        }
 
         ShowRecords(this, recordList);
     }

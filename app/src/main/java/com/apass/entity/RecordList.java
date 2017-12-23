@@ -144,6 +144,7 @@ public class RecordList implements Serializable {
 
     private byte[] getHashFromString(String s) {
         try {
+            // класс MessageDigest обеспечивает приложения функциональность алгоритма обзора сообщения
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             return digest.digest(s.getBytes());
         } catch (NoSuchAlgorithmException e) {

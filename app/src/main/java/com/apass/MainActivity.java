@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        RecordList recordList;
         switch (v.getId()) {
             case R.id.btnCreateBase:
                 //проверка на одинаковость паролей
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 //создание пустого файла и сохранение его
-                RecordList recordList = new RecordList();
+                recordList = new RecordList();
                 recordList.create(this, editPass.getText().toString());
                 recordList.save(this);
                 Intent intentCreate = new Intent(this, ListActivity.class);
@@ -71,9 +72,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnOpenBase:
                 try {
-                    new RecordList().open(this, editPass.getText().toString());
+                    recordList = new RecordList();
+                    recordList.open(this, editPass.getText().toString());
                     Intent intentOpen = new Intent(this, ListActivity.class);
-                    intentOpen.putExtra("pass", editPass.getText().toString());
+                    intentOpen.putExtra("recordList", recordList);
                     startActivity(intentOpen);
                     finish();
                 }
