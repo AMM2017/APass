@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,23 +18,18 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.apass.entity.RecordList;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 public class ListActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
     final int REQUEST_CODE_ADD = 1;
     final int REQUEST_CODE_CHANGE = 2;
+    final int REQUEST_CODE_DELETE = 7;
     private final Context context = this;
     RecordList recordList = new RecordList();
     ListView lvMain;
     EditText editTextSearch;
-    String pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,58 +132,10 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.action_delete:
-                //подтверждение удаления
-                // запрос ввода пароля для доступа к изменению
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-                // get prompts.xml view
-                LayoutInflater li = LayoutInflater.from(this);
-                View promptsView = li.inflate(R.layout.prompt, null);
-                alertDialogBuilder.setView(promptsView);
-
-                final EditText securePass = (EditText) promptsView
-                        .findViewById(R.id.editTextDialogUserInput);
-
-                // set dialog message
-                alertDialogBuilder
-                        .setCancelable(false)
-                        .setPositiveButton(R.string.dialog_btn_ok,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        //проверка хешей паролей
-                                        MessageDigest digest = null;
-                                        try {
-                                            digest = MessageDigest.getInstance("SHA-256");
-                                        } catch (NoSuchAlgorithmException e) {
-                                            e.printStackTrace();
-                                        }
-                                        byte[] usersha = digest.digest(securePass.getText().toString().getBytes());
-                                        if (Arrays.toString(usersha).equals(Arrays.toString(recordList.getSha())))
-                                        //если пароли совпадают
-                                        {
-                                            //удаляем базу, запускаем стартовое активити
-                                            recordList.delete(context);
-                                            Intent intent = new Intent(context, MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-                                        //если пароли не совпадают
-                                        else {
-                                            Toast.makeText(context, R.string.pwd_not_match, Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                })
-                        .setNegativeButton(R.string.dialog_btn_cancel,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                //показ диалогового окна
-                AlertDialog alertDialog = alertDialogBuilder.create();
-                alertDialog.show();
-                return true;
+            case R.id.action_settings:
+                Intent intentSettings= new Intent(this, SettingsActivity.class);
+                intentSettings.putExtra("recordList", recordList);
+                startActivityForResult(intentSettings, REQUEST_CODE_DELETE);
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -205,6 +151,11 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
                     recordList = (RecordList) data.getSerializableExtra("recordList");
                     recordList.save(this);
                     ShowRecords(this, recordList);
+                    break;
+                case REQUEST_CODE_DELETE:
+                    Intent intent = new Intent(context, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                     break;
             }
 

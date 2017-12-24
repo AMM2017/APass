@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 recordList.create(this, editPass.getText().toString());
                 recordList.save(this);
                 Intent intentCreate = new Intent(this, ListActivity.class);
-                intentCreate.putExtra("pass", editPass.getText().toString());
+                intentCreate.putExtra("recordList", recordList);
                 startActivity(intentCreate);
                 finish();
                 break;
